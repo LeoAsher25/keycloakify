@@ -1,8 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap");
 
-.my-color {
-	color: red;
+.login-pf body {
+  height: 100%;
+  background: white !important;
 }
 
-.my-font {
-	font-family: 'Work Sans';
+#kc-header-wrapper {
+  display: none;
+}
+
+#kc-locale {
+  display: none;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root * {
+  font-family: "Montserrat", sans-serif;
+}
+
+#root *::placeholder {
+  font-family: "Montserrat", sans-serif;
+}
+
+#root .card-pf {
+  /* transform: translate(0, -20%); */
+  margin-top: -10rem;
+  width: 52rem;
+  max-width: 98vw;
+}
+
+#root #kc-page-title {
+  color: #4e46b4;
+  font-weight: 600;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+#root .alert.alert-success {
+  display: none;
+}
+
+#root .control-label {
+  margin-bottom: 0.4rem;
+  font-size: 1.4rem;
+}
+
+#root .name-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+#root .name-wrap .form-group {
+  margin-bottom: 0;
+}
+
+#root .name-wrap .form-group + .form-group {
+  margin-left: -0.8rem;
+}
+
+#root .form-control {
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+  max-height: unset;
+  height: unset;
+  font-size: 1.4rem;
+}
+
+#root .btn[type="submit"] {
+  background-color: #4e46b4 !important;
+  background-image: none;
+  font-weight: 500;
+  border-radius: 6px;
+  border: none;
+  padding: 1.2rem;
+}
+
+#root .navigate-link {
+  margin: 2rem auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+#root .navigate-link a {
+  color: #4e46b4;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 1rem;
+}
+
+#root .navigate-btn {
+  display: flex;
+  justify-content: center;
+}
+
+#root .divide-line {
+  border-top: 1px solid #eee;
+  margin: -1rem auto 3rem;
+}
+
+#root .form-wrap {
+  /* padding: 0 8rem; */
+}
+
+#root .navigate-btn a {
+  padding: 1rem 1rem;
+  width: 20rem;
+  border-radius: 0.6rem;
+  margin: auto;
+  background-color: #27ae60;
+  text-align: center;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+@media (max-width: 700px) {
+  #root .form-wrap {
+    padding: 0 10%;
+  }
+
+  #root .card-pf {
+    padding: 0;
+  }
 }

@@ -23,15 +23,17 @@
     "license": "MIT",
     "keywords": [],
     "dependencies": {
+        "evt": "^2.4.1",
         "keycloakify": "^6.11.7",
         "react": "18.1.0",
         "react-dom": "18.1.0",
-        "evt": "^2.4.1"
+        "yup": "^1.0.0"
     },
     "devDependencies": {
         "@types/node": "^15.3.1",
         "@types/react": "18.0.9",
         "@types/react-dom": "18.0.4",
+        "@types/yup": "^0.32.0",
         "react-scripts": "5.0.0",
         "typescript": "^4.7.3"
     },
