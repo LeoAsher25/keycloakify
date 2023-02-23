@@ -34,9 +34,15 @@
 
 #root #kc-login-form {
   /* transform: translate(0, -20%); */
-  margin-top: -10rem;
+  /* margin-top: -10rem; */
   width: 55rem;
   max-width: 98vw;
+}
+
+#root #kc-register-form {
+  width: 55rem;
+  max-width: 86vw;
+  margin: auto;
 }
 
 #root #kc-login-form.form-reset-wrap {
@@ -47,7 +53,9 @@
   color: #4e46b4;
   font-weight: 600;
   font-size: 2.5rem;
+  margin: auto;
   margin-bottom: 3rem;
+  max-width: 90vw;
 }
 
 #root .reset-password-description {
@@ -96,6 +104,26 @@
 
 #root .name-wrap .form-group + .form-group {
   margin-left: -0.8rem;
+}
+
+@media (max-width: 500px) {
+  #root .name-wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #root .name-wrap .form-group {
+    float: 1;
+    width: 100%;
+  }
+
+  #root .name-wrap .form-group > div {
+    padding: 0;
+  }
+
+  #root .name-wrap .form-group + .form-group {
+    margin: 0;
+  }
 }
 
 #root .form-control {

@@ -61,41 +61,41 @@ const ResetPassword = memo(
                 tôi email bạn sử dụng để đăng ký tài khoản. Chúng tôi sẽ gửi cho
                 bạn một liên kết để đặt lại mật khẩu của bạn qua email đó.
               </div>
-              {!realm.registrationEmailAsUsername && (
-                <div
-                  className={clsx(
-                    "require-field",
-                    props.kcFormGroupClass,
-                    messagesPerField.printIfExists(
-                      "username",
-                      props.kcFormGroupErrorClass
-                    )
-                  )}>
-                  <div className={clsx(props.kcLabelWrapperClass)}>
-                    <label
-                      htmlFor="username"
-                      className={clsx(props.kcLabelClass)}>
-                      Email
-                    </label>
-                  </div>
-                  <div className={clsx(props.kcInputWrapperClass)}>
-                    <input
-                      type="text"
-                      id="username"
-                      className={clsx(props.kcInputClass)}
-                      // defaultValue={login.username ?? ""}
-                      autoComplete="username"
-                      placeholder="Nhập email"
-                      {...form.register("username")}
-                    />
-                    {form.formState.errors.username && (
-                      <div className="error-message">
-                        {form.formState.errors.username?.message as string}
-                      </div>
-                    )}
-                  </div>
+
+              <div
+                className={clsx(
+                  "require-field",
+                  props.kcFormGroupClass,
+                  messagesPerField.printIfExists(
+                    "username",
+                    props.kcFormGroupErrorClass
+                  )
+                )}>
+                <div className={clsx(props.kcLabelWrapperClass)}>
+                  <label
+                    htmlFor="username"
+                    className={clsx(props.kcLabelClass)}>
+                    Email
+                  </label>
                 </div>
-              )}
+                <div className={clsx(props.kcInputWrapperClass)}>
+                  <input
+                    type="text"
+                    id="username"
+                    className={clsx(props.kcInputClass)}
+                    // defaultValue={login.username ?? ""}
+                    autoComplete="username"
+                    placeholder="Nhập email"
+                    {...form.register("username")}
+                  />
+                  {form.formState.errors.username && (
+                    <div className="error-message">
+                      {form.formState.errors.username?.message as string}
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* <div
                 className={clsx(
                   "require-field",
