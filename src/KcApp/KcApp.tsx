@@ -5,6 +5,7 @@ import KcAppBase, { defaultKcProps } from "keycloakify";
 import { useI18n } from "./i18n";
 
 const Login = lazy(() => import("./Login"));
+const ResetPassword = lazy(() => import("./ResetPassword"));
 const Register = lazy(() => import("./Register"));
 const Terms = lazy(() => import("./Terms"));
 const MyExtraPage1 = lazy(() => import("./MyExtraPage1"));
@@ -37,6 +38,8 @@ export default function KcApp({ kcContext }: Props) {
             return <Login {...{ kcContext, ...props }} />;
           case "register.ftl":
             return <Register {...{ kcContext, ...props }} />;
+          case "login-reset-password.ftl":
+            return <ResetPassword {...{ kcContext, ...props }} />;
           case "terms.ftl":
             return <Terms {...{ kcContext, ...props }} />;
           case "my-extra-page-1.ftl":

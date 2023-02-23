@@ -4,29 +4,33 @@
 // Note that it is no longer recommended to use login.ftl, it's best to use register-user-profile.ftl
 // See: https://docs.keycloakify.dev/realtime-input-validation
 
-import { FormEvent, memo, useState } from "react";
-import Template from "keycloakify/lib/components/Template";
-import type { KcProps } from "keycloakify";
-import type { KcContext } from "./kcContext";
-import { clsx } from "keycloakify/lib/tools/clsx";
-import type { I18n } from "./i18n";
-import { loginSchema } from "./yup";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import type { KcProps } from "keycloakify";
+import Template from "keycloakify/lib/components/Template";
+import { clsx } from "keycloakify/lib/tools/clsx";
+import { memo } from "react";
+import { useForm } from "react-hook-form";
+import type { I18n } from "./i18n";
+import type { KcContext } from "./kcContext";
+import { resetSchema } from "./yup";
 
-type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
+type KcContext_ResetPassword = Extract<
+  KcContext,
+  { pageId: "login-reset-password.ftl" }
+>;
 
-const Login = memo(
+const ResetPassword = memo(
   ({
     kcContext,
     i18n,
     ...props
-  }: { kcContext: KcContext_Login; i18n: I18n } & KcProps) => {
-    const { url, messagesPerField, login, realm } = kcContext;
+  }: { kcContext: KcContext_ResetPassword; i18n: I18n } & KcProps) => {
+    const { url, messagesPerField, realm } = kcContext;
+    console.log("kcContext: ", kcContext);
 
     const form = useForm({
       mode: "onChange",
-      resolver: yupResolver(loginSchema),
+      resolver: yupResolver(resetSchema),
     });
 
     const handleSubmit = (event: any) => {
@@ -41,15 +45,22 @@ const Login = memo(
       <Template
         {...{ kcContext, i18n, ...props }}
         doFetchDefaultThemeResources={true}
-        headerNode="Đăng nhập hệ thống S2B"
+        headerNode=""
         formNode={
           <form
             id="kc-login-form"
-            className={clsx(props.kcFormClass)}
+            className={clsx("form-reset-wrap", props.kcFormClass)}
             action={url.loginAction}
             onSubmit={handleSubmit}
             method="post">
-            <div className="form-wrap">
+            <div className="form-wrap ">
+              <h1 id="kc-page-title">Quên mật khẩu</h1>
+              <div className="divide-line"></div>
+              <div className="reset-password-description">
+                Bạn quên mật khẩu của mình? Đừng lo lắng! Hãy cung cấp cho chúng
+                tôi email bạn sử dụng để đăng ký tài khoản. Chúng tôi sẽ gửi cho
+                bạn một liên kết để đặt lại mật khẩu của bạn qua email đó.
+              </div>
               {!realm.registrationEmailAsUsername && (
                 <div
                   className={clsx(
@@ -72,7 +83,7 @@ const Login = memo(
                       type="text"
                       id="username"
                       className={clsx(props.kcInputClass)}
-                      defaultValue={login.username ?? ""}
+                      // defaultValue={login.username ?? ""}
                       autoComplete="username"
                       placeholder="Nhập email"
                       {...form.register("username")}
@@ -85,7 +96,7 @@ const Login = memo(
                   </div>
                 </div>
               )}
-              <div
+              {/* <div
                 className={clsx(
                   "require-field",
                   props.kcFormGroupClass,
@@ -116,48 +127,31 @@ const Login = memo(
                     </div>
                   )}
                 </div>
+              </div> */}
+              <div
+                id="kc-form-options"
+                className={clsx(props.kcFormOptionsClass)}>
+                <div className="divide-line"></div>
               </div>
 
               <div className={clsx(props.kcFormGroupClass)}>
                 <div
                   id="kc-form-buttons"
                   className={clsx(props.kcFormButtonsClass)}>
-                  <input
-                    className={clsx(
-                      props.kcButtonClass,
-                      props.kcButtonPrimaryClass,
-                      props.kcButtonBlockClass,
-                      props.kcButtonLargeClass
-                    )}
-                    type="submit"
-                    value="Đăng nhập"
-                  />
-                </div>
-
-                <div
-                  id="kc-form-options"
-                  className={clsx(props.kcFormOptionsClass)}>
-                  <div className={clsx(props.kcFormOptionsWrapperClass)}>
-                    <span className="navigate-link">
-                      <a href={url.loginResetCredentialsUrl}>Quên mật khẩu</a>
-                    </span>
+                  <div className="btn-wrap">
+                    <div className="cancel-reset-btn">
+                      <a href={url.loginUrl}>Hủy bỏ</a>
+                    </div>
+                    <input
+                      className={clsx(
+                        props.kcButtonClass,
+                        props.kcButtonPrimaryClass
+                      )}
+                      type="submit"
+                      value="Đăng nhập"
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
-            <div
-              id="kc-form-options"
-              className={clsx(props.kcFormOptionsClass)}>
-              <div className="divide-line"></div>
-            </div>
-
-            <div
-              id="kc-form-options"
-              className={clsx(props.kcFormOptionsClass)}>
-              <div className={clsx(props.kcFormOptionsWrapperClass)}>
-                <span className="navigate-btn">
-                  <a href={url.registrationUrl}>Tạo tài khoản mới</a>
-                </span>
               </div>
             </div>
           </form>
@@ -167,4 +161,4 @@ const Login = memo(
   }
 );
 
-export default Login;
+export default ResetPassword;

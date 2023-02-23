@@ -20,6 +20,10 @@
   justify-content: center;
 }
 
+#root .card-pf {
+  max-width: unset;
+}
+
 #root * {
   font-family: "Montserrat", sans-serif;
 }
@@ -28,11 +32,15 @@
   font-family: "Montserrat", sans-serif;
 }
 
-#root .card-pf {
+#root #kc-login-form {
   /* transform: translate(0, -20%); */
   margin-top: -10rem;
-  width: 52rem;
+  width: 55rem;
   max-width: 98vw;
+}
+
+#root #kc-login-form.form-reset-wrap {
+  width: 70rem;
 }
 
 #root #kc-page-title {
@@ -40,6 +48,11 @@
   font-weight: 600;
   font-size: 2.5rem;
   margin-bottom: 3rem;
+}
+
+#root .reset-password-description {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
 }
 
 #root .alert.alert-success {
@@ -51,7 +64,7 @@
   border-radius: 6px;
 }
 
-#root .alert.pficon {
+#root .alert .pficon {
   display: none;
 }
 
@@ -157,4 +170,33 @@
   #root .card-pf {
     padding: 0;
   }
+}
+
+#root #kc-login-form.form-reset-wrap .btn-wrap {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+#root .form-reset-wrap #kc-form-buttons {
+  margin: 0;
+}
+
+#root .form-reset-wrap .divide-line {
+  margin-top: 1.5rem;
+}
+
+#root .form-reset-wrap .cancel-reset-btn {
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  cursor: pointer;
+  margin-right: 1.5rem;
+}
+
+#root .form-reset-wrap .cancel-reset-btn a {
+  text-decoration: none;
+  color: #030303;
 }
