@@ -4,12 +4,13 @@
 // Note that it is no longer recommended to use login.ftl, it's best to use register-user-profile.ftl
 // See: https://docs.keycloakify.dev/realtime-input-validation
 
-import { memo } from "react";
+import { FormEvent, memo, useState } from "react";
 import Template from "keycloakify/lib/components/Template";
 import type { KcProps } from "keycloakify";
 import type { KcContext } from "./kcContext";
 import { clsx } from "keycloakify/lib/tools/clsx";
 import type { I18n } from "./i18n";
+import { loginSchema } from "./yup";
 
 type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
 
@@ -20,7 +21,30 @@ const Login = memo(
     ...props
   }: { kcContext: KcContext_Login; i18n: I18n } & KcProps) => {
     const { url, messagesPerField, login, realm } = kcContext;
-    console.log("mapping done", kcContext);
+    const [errors, setErrors] = useState([]);
+
+    const handleSubmit = (event: FormEvent) => {
+      event.preventDefault();
+      const formData = event.target as any;
+
+      console.log("formData: , ", formData);
+
+      loginSchema
+        .validate(
+          {
+            username: formData.username.value,
+            password: formData.password.value,
+          },
+          { abortEarly: false }
+        )
+        .then((value) => {
+          console.log("value:", value);
+        })
+        .catch((error) => {
+          console.log("error: ", error.errors);
+          setErrors(error.errors);
+        });
+    };
 
     return (
       <Template
@@ -32,7 +56,17 @@ const Login = memo(
             id="kc-login-form"
             className={clsx(props.kcFormClass)}
             action={url.loginAction}
+            onSubmit={handleSubmit}
             method="post">
+            {errors.length > 0 && (
+              <ul className="alert alert-error">
+                {errors.map((error, index) => (
+                  <li key={index} className="kc-feedback-text">
+                    {error}
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="form-wrap">
               {!realm.registrationEmailAsUsername && (
                 <div

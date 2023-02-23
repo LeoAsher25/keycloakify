@@ -7,10 +7,10 @@
 import type { KcProps } from "keycloakify";
 import Template from "keycloakify/lib/components/Template";
 import { clsx } from "keycloakify/lib/tools/clsx";
-import { FormEvent, memo } from "react";
+import { FormEvent, memo, useState } from "react";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./kcContext";
-import registorSchema, { RegistorInterface } from "./yup";
+import { registorSchema } from "./yup";
 
 type KcContext_Register = Extract<KcContext, { pageId: "register.ftl" }>;
 
@@ -24,20 +24,14 @@ const Register = memo(
       kcContext;
     const { msg } = i18n;
 
+    const [errors, setErrors] = useState([]);
+
     const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
       const formData = event.target as any;
-      // const data: RegistorInterface = register.formData;
-      console.log(
-        "data:  ",
-        {
-          firstName: formData.firstName.value,
-          lastName: formData.lastName.value,
-          email: formData.email.value,
-          password: formData.password.value,
-          passwordConfirm: formData.passwordConfirm.value,
-        },
-        registorSchema.validate(
+
+      registorSchema
+        .validate(
           {
             firstName: formData.firstName.value,
             lastName: formData.lastName.value,
@@ -47,7 +41,13 @@ const Register = memo(
           },
           { abortEarly: false }
         )
-      );
+        .then((value) => {
+          console.log("value:", value);
+        })
+        .catch((error) => {
+          console.log("error: ", error.errors);
+          setErrors(error.errors);
+        });
     };
 
     return (
@@ -62,6 +62,15 @@ const Register = memo(
             action={url.registrationAction}
             onSubmit={handleSubmit}
             method="post">
+            {errors.length > 0 && (
+              <ul className="alert alert-error">
+                {errors.map((error, index) => (
+                  <li key={index} className="kc-feedback-text">
+                    {error}
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="name-wrap">
               <div
                 className={clsx(
@@ -143,7 +152,7 @@ const Register = memo(
                 />
               </div>
             </div>
-            {!realm.registrationEmailAsUsername && (
+            {/* {!realm.registrationEmailAsUsername && (
               <div
                 className={clsx(
                   props.kcFormGroupClass,
@@ -171,7 +180,7 @@ const Register = memo(
                   />
                 </div>
               </div>
-            )}
+            )} */}
             {passwordRequired && (
               <>
                 <div

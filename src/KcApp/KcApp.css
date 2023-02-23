@@ -44,6 +44,20 @@
 
 #root .alert.alert-success {
   display: none;
+  font-size: 1.4rem;
+}
+
+#root .alert.alert-error {
+  border-radius: 6px;
+}
+
+#root .alert.pficon {
+  display: none;
+}
+
+#root .alert .kc-feedback-text {
+  font-size: 1.3rem;
+  color: #c00;
 }
 
 #root .control-label {
