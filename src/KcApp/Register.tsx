@@ -20,11 +20,13 @@ const Register = memo(
     i18n,
     ...props
   }: { kcContext: KcContext_Register; i18n: I18n } & KcProps) => {
-    const { url, messagesPerField, register, realm, passwordRequired } =
-      kcContext;
+    const { url, messagesPerField, register, passwordRequired } = kcContext;
     const { msg } = i18n;
 
-    const [errors, setErrors] = useState([]);
+    const [lastNameError, setLastNameError] = useState("");
+    const [firstNameError, setFirstNameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
 
     const handleSubmit = (event: FormEvent) => {
       event.preventDefault();
@@ -46,7 +48,19 @@ const Register = memo(
         })
         .catch((error) => {
           console.log("error: ", error.errors);
-          setErrors(error.errors);
+          error.errors.forEach((error: string) => {
+            if (error.includes("Họ ")) {
+              setLastNameError(error);
+            } else if (error.includes("Tên ")) {
+              setFirstNameError(error);
+            } else if (error.includes("Tên ")) {
+              setFirstNameError(error);
+            } else if (error.includes("Tên ")) {
+              setFirstNameError(error);
+            } else if (error.includes("Tên ")) {
+              setFirstNameError(error);
+            }
+          });
         });
     };
 
@@ -62,7 +76,7 @@ const Register = memo(
             action={url.registrationAction}
             onSubmit={handleSubmit}
             method="post">
-            {errors.length > 0 && (
+            {/* {errors.length > 0 && (
               <ul className="alert alert-error">
                 {errors.map((error, index) => (
                   <li key={index} className="kc-feedback-text">
@@ -70,7 +84,7 @@ const Register = memo(
                   </li>
                 ))}
               </ul>
-            )}
+            )} */}
             <div className="name-wrap">
               <div
                 className={clsx(

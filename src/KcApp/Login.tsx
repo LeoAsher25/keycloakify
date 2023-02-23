@@ -32,8 +32,8 @@ const Login = memo(
       loginSchema
         .validate(
           {
-            username: formData.username.value,
-            password: formData.password.value,
+            username: formData?.username?.value,
+            password: formData?.password?.value,
           },
           { abortEarly: false }
         )

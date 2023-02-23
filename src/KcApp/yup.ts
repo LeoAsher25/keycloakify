@@ -7,6 +7,7 @@ export const registorSchema = object().shape({
     .required("Email không được để trống")
     .email("Email không đúng định dạng"),
   password: string().required("Mật khẩu không được để trống"),
+  passwordConfirm: string().required("Mật khẩu không trùng khớp"),
 });
 
 export const loginSchema = object().shape({
