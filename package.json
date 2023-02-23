@@ -23,10 +23,12 @@
     "license": "MIT",
     "keywords": [],
     "dependencies": {
+        "@hookform/resolvers": "^2.9.11",
         "evt": "^2.4.1",
         "keycloakify": "^6.11.7",
         "react": "18.1.0",
         "react-dom": "18.1.0",
+        "react-hook-form": "^7.43.2",
         "yup": "^1.0.0"
     },
     "devDependencies": {

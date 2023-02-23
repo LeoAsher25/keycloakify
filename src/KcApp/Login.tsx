@@ -11,6 +11,8 @@ import type { KcContext } from "./kcContext";
 import { clsx } from "keycloakify/lib/tools/clsx";
 import type { I18n } from "./i18n";
 import { loginSchema } from "./yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type KcContext_Login = Extract<KcContext, { pageId: "login.ftl" }>;
 
@@ -21,29 +23,17 @@ const Login = memo(
     ...props
   }: { kcContext: KcContext_Login; i18n: I18n } & KcProps) => {
     const { url, messagesPerField, login, realm } = kcContext;
-    const [errors, setErrors] = useState([]);
 
-    const handleSubmit = (event: FormEvent) => {
-      event.preventDefault();
-      const formData = event.target as any;
+    const form = useForm({
+      mode: "onChange",
+      resolver: yupResolver(loginSchema),
+    });
 
-      console.log("formData: , ", formData);
-
-      loginSchema
-        .validate(
-          {
-            username: formData?.username?.value,
-            password: formData?.password?.value,
-          },
-          { abortEarly: false }
-        )
-        .then((value) => {
-          console.log("value:", value);
-        })
-        .catch((error) => {
-          console.log("error: ", error.errors);
-          setErrors(error.errors);
-        });
+    const handleSubmit = (event: any) => {
+      form.trigger();
+      if (!form.formState.isValid) {
+        event?.preventDefault();
+      }
     };
 
     return (
@@ -58,19 +48,11 @@ const Login = memo(
             action={url.loginAction}
             onSubmit={handleSubmit}
             method="post">
-            {errors.length > 0 && (
-              <ul className="alert alert-error">
-                {errors.map((error, index) => (
-                  <li key={index} className="kc-feedback-text">
-                    {error}
-                  </li>
-                ))}
-              </ul>
-            )}
             <div className="form-wrap">
               {!realm.registrationEmailAsUsername && (
                 <div
                   className={clsx(
+                    "require-field",
                     props.kcFormGroupClass,
                     messagesPerField.printIfExists(
                       "username",
@@ -89,16 +71,17 @@ const Login = memo(
                       type="text"
                       id="username"
                       className={clsx(props.kcInputClass)}
-                      name="username"
                       defaultValue={login.username ?? ""}
                       autoComplete="username"
                       placeholder="Nhập email"
+                      {...form.register("username")}
                     />
                   </div>
                 </div>
               )}
               <div
                 className={clsx(
+                  "require-field",
                   props.kcFormGroupClass,
                   messagesPerField.printIfExists(
                     "password",
@@ -117,9 +100,9 @@ const Login = memo(
                     type="password"
                     id="password"
                     className={clsx(props.kcInputClass)}
-                    name="password"
                     autoComplete="new-password"
                     placeholder="Nhập mật khẩu"
+                    {...form.register("password")}
                   />
                 </div>
               </div>

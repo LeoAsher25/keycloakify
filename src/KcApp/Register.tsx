@@ -4,10 +4,12 @@
 // Note that it is no longer recommended to use register.ftl, it's best to use register-user-profile.ftl
 // See: https://docs.keycloakify.dev/realtime-input-validation
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import type { KcProps } from "keycloakify";
 import Template from "keycloakify/lib/components/Template";
 import { clsx } from "keycloakify/lib/tools/clsx";
-import { FormEvent, memo, useState } from "react";
+import { memo } from "react";
+import { useForm } from "react-hook-form";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./kcContext";
 import { registorSchema } from "./yup";
@@ -23,45 +25,16 @@ const Register = memo(
     const { url, messagesPerField, register, passwordRequired } = kcContext;
     const { msg } = i18n;
 
-    const [lastNameError, setLastNameError] = useState("");
-    const [firstNameError, setFirstNameError] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
+    const form = useForm({
+      mode: "onChange",
+      resolver: yupResolver(registorSchema),
+    });
 
-    const handleSubmit = (event: FormEvent) => {
-      event.preventDefault();
-      const formData = event.target as any;
-
-      registorSchema
-        .validate(
-          {
-            firstName: formData.firstName.value,
-            lastName: formData.lastName.value,
-            email: formData.email.value,
-            password: formData.password.value,
-            passwordConfirm: formData.passwordConfirm.value,
-          },
-          { abortEarly: false }
-        )
-        .then((value) => {
-          console.log("value:", value);
-        })
-        .catch((error) => {
-          console.log("error: ", error.errors);
-          error.errors.forEach((error: string) => {
-            if (error.includes("Họ ")) {
-              setLastNameError(error);
-            } else if (error.includes("Tên ")) {
-              setFirstNameError(error);
-            } else if (error.includes("Tên ")) {
-              setFirstNameError(error);
-            } else if (error.includes("Tên ")) {
-              setFirstNameError(error);
-            } else if (error.includes("Tên ")) {
-              setFirstNameError(error);
-            }
-          });
-        });
+    const handleSubmit = (event: any) => {
+      form.trigger();
+      if (!form.formState.isValid) {
+        event?.preventDefault();
+      }
     };
 
     return (
@@ -76,18 +49,10 @@ const Register = memo(
             action={url.registrationAction}
             onSubmit={handleSubmit}
             method="post">
-            {/* {errors.length > 0 && (
-              <ul className="alert alert-error">
-                {errors.map((error, index) => (
-                  <li key={index} className="kc-feedback-text">
-                    {error}
-                  </li>
-                ))}
-              </ul>
-            )} */}
             <div className="name-wrap">
               <div
                 className={clsx(
+                  "require-field",
                   props.kcFormGroupClass,
                   messagesPerField.printIfExists(
                     "lastName",
@@ -106,15 +71,22 @@ const Register = memo(
                     type="text"
                     id="lastName"
                     className={clsx(props.kcInputClass)}
-                    name="lastName"
                     defaultValue={register.formData.lastName ?? ""}
                     placeholder="Nhập họ"
+                    {...form.register("lastName")}
                   />
+
+                  {form.formState.errors.lastName && (
+                    <div className="error-message">
+                      {form.formState.errors.lastName?.message as string}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div
                 className={clsx(
+                  "require-field",
                   props.kcFormGroupClass,
                   messagesPerField.printIfExists(
                     "firstName",
@@ -133,16 +105,22 @@ const Register = memo(
                     type="text"
                     id="firstName"
                     className={clsx(props.kcInputClass)}
-                    name="firstName"
                     defaultValue={register.formData.firstName ?? ""}
                     placeholder="Nhập tên"
+                    {...form.register("firstName")}
                   />
+                  {form.formState.errors.firstName && (
+                    <div className="error-message">
+                      {form.formState.errors.firstName?.message as string}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
             <div
               className={clsx(
+                "require-field",
                 props.kcFormGroupClass,
                 messagesPerField.printIfExists(
                   "email",
@@ -159,17 +137,22 @@ const Register = memo(
                   type="text"
                   id="email"
                   className={clsx(props.kcInputClass)}
-                  name="email"
                   defaultValue={register.formData.email ?? ""}
                   autoComplete="email"
                   placeholder="Nhập email"
+                  {...form.register("email")}
                 />
+                {form.formState.errors.email && (
+                  <div className="error-message">
+                    {form.formState.errors.email?.message as string}
+                  </div>
+                )}
               </div>
             </div>
             {/* {!realm.registrationEmailAsUsername && (
               <div
                 className={clsx(
-                  props.kcFormGroupClass,
+                   "require-field",props.kcFormGroupClass,
                   messagesPerField.printIfExists(
                     "username",
                     props.kcFormGroupErrorClass
@@ -199,6 +182,7 @@ const Register = memo(
               <>
                 <div
                   className={clsx(
+                    "require-field",
                     props.kcFormGroupClass,
                     messagesPerField.printIfExists(
                       "password",
@@ -217,15 +201,21 @@ const Register = memo(
                       type="password"
                       id="password"
                       className={clsx(props.kcInputClass)}
-                      name="password"
                       autoComplete="new-password"
                       placeholder="Nhập mật khẩu"
+                      {...form.register("password")}
                     />
+                    {form.formState.errors.password && (
+                      <div className="error-message">
+                        {form.formState.errors.password?.message as string}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div
                   className={clsx(
+                    "require-field",
                     props.kcFormGroupClass,
                     messagesPerField.printIfExists(
                       "password-confirm",
@@ -244,9 +234,17 @@ const Register = memo(
                       type="password"
                       id="password-confirm"
                       className={clsx(props.kcInputClass)}
-                      name="passwordConfirm"
                       placeholder="Nhập lại mật khẩu"
+                      {...form.register("passwordConfirm")}
                     />
+                    {form.formState.errors.passwordConfirm && (
+                      <div className="error-message">
+                        {
+                          form.formState.errors.passwordConfirm
+                            ?.message as string
+                        }
+                      </div>
+                    )}
                   </div>
                 </div>
               </>

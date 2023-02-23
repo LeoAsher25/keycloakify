@@ -65,9 +65,15 @@
   font-size: 1.4rem;
 }
 
+#root .require-field .control-label::after {
+  content: "*";
+  color: #c00;
+  margin-left: 0.3rem;
+}
+
 #root .name-wrap {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 1.5rem;
 }
 
@@ -94,6 +100,10 @@
   border-radius: 6px;
   border: none;
   padding: 1.2rem;
+}
+
+#root .error-message {
+  color: #c00;
 }
 
 #root .navigate-link {
