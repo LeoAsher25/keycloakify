@@ -29,7 +29,7 @@ const ResetPassword = memo(
     console.log("kcContext: ", kcContext);
 
     const form = useForm({
-      mode: "onChange",
+      mode: "onSubmit",
       resolver: yupResolver(resetSchema),
     });
 

@@ -49,6 +49,10 @@
   width: 70rem;
 }
 
+#root #kc-attempted-username {
+  display: none;
+}
+
 #root #kc-page-title {
   color: #4e46b4;
   font-weight: 600;
@@ -132,6 +136,10 @@
   max-height: unset;
   height: unset;
   font-size: 1.4rem;
+}
+
+#root .form-control::placeholder {
+  font-style: normal;
 }
 
 #root .btn[type="submit"] {

@@ -22,11 +22,12 @@ const Register = memo(
     i18n,
     ...props
   }: { kcContext: KcContext_Register; i18n: I18n } & KcProps) => {
-    const { url, messagesPerField, register, passwordRequired } = kcContext;
+    const { url, messagesPerField, register, passwordRequired, message } =
+      kcContext;
     const { msg } = i18n;
 
     const form = useForm({
-      mode: "onChange",
+      mode: "onSubmit",
       resolver: yupResolver(registorSchema),
     });
 
@@ -147,6 +148,12 @@ const Register = memo(
                     {form.formState.errors.email?.message as string}
                   </div>
                 )}
+
+                {message?.summary && message.type === "error" && (
+                  <div className="error-message">
+                    {message?.summary as string}
+                  </div>
+                )}
               </div>
             </div>
             {/* {!realm.registrationEmailAsUsername && (
@@ -235,12 +242,12 @@ const Register = memo(
                       id="password-confirm"
                       className={clsx(props.kcInputClass)}
                       placeholder="Nhập lại mật khẩu"
-                      {...form.register("passwordConfirm")}
+                      {...form.register("password-confirm")}
                     />
-                    {form.formState.errors.passwordConfirm && (
+                    {form.formState.errors["password-confirm"] && (
                       <div className="error-message">
                         {
-                          form.formState.errors.passwordConfirm
+                          form.formState.errors["password-confirm"]
                             ?.message as string
                         }
                       </div>
